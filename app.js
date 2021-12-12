@@ -5,7 +5,7 @@ const mysql = require("mysql");
 const PORT = process.env.PORT || 4001;
 app.use(express.json());
 
-console.log(`${process.env.PASSWORD}`);
+// console.log(`${process.env.PASSWORD}`);
 //create connection
 const connection = mysql.createConnection({
   host: "localhost",
@@ -21,6 +21,8 @@ connection.connect((err) => {
     console.log(`connection to mysql established!`);
   }
 });
+
+////////////////////////////////    GET REQUEST
 
 app.get("/company", (req, res, next) => {
   connection.query(`select * from employees;`, (err, table, fields) => {
@@ -50,7 +52,7 @@ app.get("/getSecondMaxSalary", (req, res, next) => {
 });
 
 ///to display all databases
-app.get("/showdatabases", (req, res) => {
+app.get("/showDatabases", (req, res) => {
   connection.query(`show databases;`, (err, table, fields) => {
     if (err) {
       console.log(err.message);
@@ -94,6 +96,52 @@ app.get("/ascSalary", (req, res) => {
 app.get("/in", (req, res) => {
   connection.query(
     `select * from employees where employee_id in (7, 13, 15)`,
+    (err, table, fields) => {
+      if (err) {
+        console.log(err.message);
+      } else {
+        res.send(table);
+      }
+    }
+  );
+});
+
+////////////////////////////////    POST REQUEST
+app.post("/addNewEmployee", (req, res, next) => {
+  const keys = Object.keys(req.body);
+  const values = Object.values(req.body);
+
+  connection.query(
+    `insert into employees (${keys[0]},${keys[1]},${keys[2]},${keys[3]},${keys[4]},${keys[5]}) values("${values[0]}","${values[1]}","${values[2]}",${values[3]},"${values[4]}",${values[5]});`,
+    (err, table, fields) => {
+      if (err) {
+        console.log(err.message);
+      } else {
+        res.send(table);
+      }
+    }
+  );
+});
+
+/*
+OUTPUT:
+{
+    "fieldCount": 0,
+    "affectedRows": 1,
+    "insertId": 20,
+    "serverStatus": 2,
+    "warningCount": 0,
+    "message": "",
+    "protocol41": true,
+    "changedRows": 0
+}
+*/
+
+////////////////////////////////   PUT REQUEST
+
+app.put("/updateEmployees", (req, res, next) => {
+  connection.query(
+    `update employees set email="felix@dci.com" where employee_id=16`,
     (err, table, fields) => {
       if (err) {
         console.log(err.message);
