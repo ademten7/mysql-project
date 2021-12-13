@@ -108,30 +108,32 @@ app.get("/in", (req, res) => {
 
 ////////////////////////////////    POST REQUEST
 app.post("/addNewEmployee", (req, res, next) => {
-  connection.query(`
-  insert into employees(first_name,last_name,email,phone_number,hire_date,salary) values(?,?,?,?,?,?)`,Object.values(req.body),(err,table,fields)=>{
-      res.send(table)
-  } )
+  connection.query(
+    `
+  insert into employees(first_name,last_name,email,phone_number,hire_date,salary) values(?,?,?,?,?,?)`,
+    Object.values(req.body),
+    (err, table, fields) => {
+      res.send(table);
+    }
+  );
 
-   //for update values inside table
+  //for update values inside table
   /*   connection.query(`update table classes set course_name=? , course_id=?` ,["fbw32" ,5],(err,table,fields)=>{}) */
 
+  //   const keys = Object.keys(req.body);
+  //   const values = Object.values(req.body);
 
-
-//   const keys = Object.keys(req.body);
-//   const values = Object.values(req.body);
-
-//   connection.query(
-//     `insert into employees (${keys[0]},${keys[1]},${keys[2]},${keys[3]},${keys[4]},${keys[5]}) values("${values[0]}","${values[1]}","${values[2]}",${values[3]},"${values[4]}",${values[5]});`,
-//     (err, table, fields) => {
-//       if (err) {
-//         console.log(err.message);
-//       } else {
-//         res.send(table);
-//       }
-//     }
-//   );
-// });
+  //   connection.query(
+  //     `insert into employees (${keys[0]},${keys[1]},${keys[2]},${keys[3]},${keys[4]},${keys[5]}) values("${values[0]}","${values[1]}","${values[2]}",${values[3]},"${values[4]}",${values[5]});`,
+  //     (err, table, fields) => {
+  //       if (err) {
+  //         console.log(err.message);
+  //       } else {
+  //         res.send(table);
+  //       }
+  //     }
+  //   );
+});
 
 /*
 OUTPUT:
